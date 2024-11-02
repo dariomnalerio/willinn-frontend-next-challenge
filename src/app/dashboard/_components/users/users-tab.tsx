@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { User } from '../../_types';
 import { Table } from './table';
 import { SearchBar } from '@/components/search-bar';
-import { useUsers } from '../../_stores/users-store';
+import { UserEditingProvider, useUsers } from '../../_stores/users-store';
 
 export function UsersTab({ users: usersProp }: { users: User[] }): JSX.Element {
   const { setUsers } = useUsers();
@@ -12,7 +12,7 @@ export function UsersTab({ users: usersProp }: { users: User[] }): JSX.Element {
   useEffect(() => {
     setUsers(usersProp);
     setIsLoading(false);
-  }, []);
+  }, [setUsers, usersProp]);
 
   const handleSearch = (results: User[]) => {
     setUsers(results);
@@ -30,7 +30,9 @@ export function UsersTab({ users: usersProp }: { users: User[] }): JSX.Element {
               <span className='text-lg font-medium'>Usuarios</span>
               <SearchBar items={usersProp} onSearch={handleSearch} searchFields={['name']} placeholder='Buscar' />
             </div>
-            <Table />
+            <UserEditingProvider>
+              <Table />
+            </UserEditingProvider>
           </>
         )}
       </div>

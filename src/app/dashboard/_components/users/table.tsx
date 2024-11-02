@@ -1,5 +1,4 @@
 import { cn } from '@/utils';
-import { User } from '../../_types';
 import ActionCell from './action-cell';
 import { useUsers } from '../../_stores/users-store';
 
