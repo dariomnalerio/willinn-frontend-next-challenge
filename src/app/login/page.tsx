@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from './_components/card';
 import { LoginForm } from './_components/login-form';
-import { Logo } from '@/components/icons/logo';
+import { Logo } from '@/components/icons/logo-bg';
 
 export default function LoginPage(): React.ReactElement {
   return (
