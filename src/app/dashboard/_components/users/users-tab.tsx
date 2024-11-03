@@ -4,6 +4,7 @@ import { User } from '../../_types';
 import { Table } from './table';
 import { SearchBar } from '@/components/search-bar';
 import { UserEditingProvider, useUsers } from '../../_stores/users-store';
+import { UserActions } from './user-actions';
 
 export function UsersTab({ users: usersProp }: { users: User[] }): JSX.Element {
   const { setUsers } = useUsers();
@@ -18,24 +19,27 @@ export function UsersTab({ users: usersProp }: { users: User[] }): JSX.Element {
     setUsers(results);
   };
   return (
-    <>
-      <h1 className='text-2xl font-semibold'>Usuarios</h1>
-      <div className='w-[598px] h-[606px] bg-white rounded-3xl shadow mt-12 py-3 overflow-y-hidden'>
-        {/* TODO: loading skeleton */}
-        {isLoading && <div className='flex justify-center items-center h-full'>Cargando...</div>}
-        {!isLoading && (
-          <>
-            {/* Table section */}
-            <div className=' flex justify-between items-center px-8 border-b pb-3'>
-              <span className='text-lg font-medium'>Usuarios</span>
-              <SearchBar items={usersProp} onSearch={handleSearch} searchFields={['name']} placeholder='Buscar' />
-            </div>
-            <UserEditingProvider>
-              <Table />
-            </UserEditingProvider>
-          </>
-        )}
+    <div>
+      <h1 className='pt-12 md:mt-0 ml-4 md:ml-0 text-2xl font-semibold'>Usuarios</h1>
+      <div className='flex flex-wrap items-center justify-center md:justify-normal gap-9'>
+        <UserEditingProvider>
+          <div className='w-full md:max-w-[500px] lg:max-w-[665px] md:h-[650px] md:bg-white md:rounded-3xl md:shadow mt-5 md:mt-12 py-3 overflow-y-hidden'>
+            {/* TODO: loading skeleton & isLoading to useUsers context */}
+            {isLoading && <div className='flex justify-center items-center h-full'>Cargando...</div>}
+            {!isLoading && (
+              <>
+                {/* Table section */}
+                <div className=' flex justify-between items-center px-6 border-b pb-3'>
+                  <span className='text-lg font-medium'>Usuarios</span>
+                  <SearchBar items={usersProp} onSearch={handleSearch} searchFields={['name']} placeholder='Buscar' />
+                </div>
+                <Table />
+              </>
+            )}
+          </div>
+          <UserActions />
+        </UserEditingProvider>
       </div>
-    </>
+    </div>
   );
 }

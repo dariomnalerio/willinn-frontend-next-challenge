@@ -3,8 +3,8 @@ import { cn } from '@/utils';
 export type Variant = 'primary' | 'secondary' | 'link';
 
 export const variantClasses = {
-  primary: 'text-white bg-primary hover:bg-primary/85',
-  secondary: 'bg-secondary text-white',
+  primary: 'text-white bg-primary hover:bg-primary/90',
+  secondary: 'text-white bg-secondary hover:bg-secondary/90',
   link: 'h-fit text-inherit hover:underline underline-offset-4',
 };
 

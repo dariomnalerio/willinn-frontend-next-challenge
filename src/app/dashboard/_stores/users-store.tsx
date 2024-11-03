@@ -34,7 +34,7 @@ const userEditingReducer = (state: UserEditingState, action: UserEditingAction):
       return {
         ...state,
         activeUserId: state.activeUserId === action.id ? null : action.id,
-        editingUserId: state.activeUserId === action.id ? null : state.editingUserId,
+        editingUserId: null,
       };
     case 'TOGGLE_EDITING':
       if (state.activeUserId !== action.id) {

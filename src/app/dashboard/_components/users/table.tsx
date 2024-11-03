@@ -5,12 +5,12 @@ import { useUsers } from '../../_stores/users-store';
 export function Table(): JSX.Element {
   const { users } = useUsers();
   return (
-    <table className='w-full my-3'>
+    <table className='w-full table-fixed my-3 text-sm text-wrap'>
       <thead>
         <tr className='border-b border-gray-200'>
-          <th className='text-lg font-medium text-gray-700 px-6 py-3 text-left'>Nombre</th>
-          <th className='text-lg font-medium text-gray-700 px-6 py-3 text-left'>Correo</th>
-          <th className='text-lg font-medium text-gray-700 px-6 py-3 text-right'></th>
+          <th className='text-lg font-medium text-gray-700 px-6 pb-3 text-left'>Nombre</th>
+          <th className='text-lg font-medium text-gray-700 px-6 pb-3 text-left'>Correo</th>
+          <th className='text-lg font-medium text-gray-700 px-6 pb-3 text-right'></th>
         </tr>
       </thead>
       <tbody>
@@ -20,20 +20,20 @@ export function Table(): JSX.Element {
             {users.slice(0, 8).map((user, idx) => (
               <tr key={user.id + idx} className='h-14 border-b border-gray-200 hover:bg-gray-50'>
                 <td
-                  className={cn('pl-6 text-[#718EBF]', {
+                  className={cn('pl-6 text-[#718EBF] w-1/3 text-ellipsis break-words', {
                     'line-through': !user.isActive,
                   })}
                 >
                   {user.name}
                 </td>
                 <td
-                  className={cn('pl-6 text-[#718EBF]', {
+                  className={cn('pl-6 text-[#718EBF] w-1/3 break-words whitespace-normal', {
                     'line-through': !user.isActive,
                   })}
                 >
                   {user.email}
                 </td>
-                <td>
+                <td className='pr-3 md:pl-12 lg:pl-24'>
                   <ActionCell user={user} />
                 </td>
               </tr>

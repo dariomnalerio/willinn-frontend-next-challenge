@@ -74,7 +74,7 @@ export function SearchBar<T>({ items, placeholder, onSearch, searchFields }: Sea
       <Input
         type='text'
         autoComplete='off'
-        className='border-background/90 ring-none bg-background rounded-full h-10 pl-10 max-w-[255px]'
+        className='border-background/90 ring-none bg-background rounded-full h-10 pl-10 max-w-[150px] md:max-w-[255px]'
         placeholder={placeholder}
         value={searchTerm}
         onChange={handleSearchTermChange}

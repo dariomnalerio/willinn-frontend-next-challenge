@@ -8,7 +8,7 @@ import { Edit } from '@/components/icons/edit';
 import { useUsersEditing } from '../../_stores/users-store';
 
 export default function ActionCell({ user }: { user: User }): JSX.Element {
-  const { dispatch, isActionActive } = useUsersEditing();
+  const { dispatch, isActionActive, isEditing } = useUsersEditing();
 
   const handleIsActive = () => {
     dispatch({ type: 'TOGGLE_ACTION_ACTIVE', id: user.id });
@@ -19,7 +19,7 @@ export default function ActionCell({ user }: { user: User }): JSX.Element {
   };
 
   return (
-    <div className='w-24 flex justify-end'>
+    <div className='md:pr-3 flex justify-end'>
       <div
         className={cn(
           'bg-gray-100 hover:bg-gray-200 rounded-full transition-all duration-500 overflow-hidden ease-in-out h-9',
@@ -40,10 +40,16 @@ export default function ActionCell({ user }: { user: User }): JSX.Element {
         )}
         {isActionActive(user.id) && (
           <div className='h-full w-full flex items-center justify-between px-3'>
-            <button aria-label='Eliminar usuario'>
-              <TrashCan width={24} height={24} className='text-red-600 hover:scale-110 duration-300 ease-in-out' />
+            <button aria-label='Eliminar usuario' className='p-1 rounded-full'>
+              <TrashCan width={24} height={24} className='text-primary hover:scale-110 duration-300 ease-in-out' />
             </button>
-            <button onClick={handleIsEditing} aria-label='Editar usuario'>
+            <button
+              onClick={handleIsEditing}
+              aria-label='Editar usuario'
+              className={cn('p-1 rounded-full transition-all duration-300 ease-in-out', {
+                'bg-gray-400/60': isEditing(user.id),
+              })}
+            >
               <Edit width={24} height={24} className='hover:scale-110 duration-300 ease-in-out' />
             </button>
           </div>
