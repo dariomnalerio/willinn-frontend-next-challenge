@@ -1,0 +1,12 @@
+services:
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
