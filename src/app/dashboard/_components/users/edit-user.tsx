@@ -5,6 +5,8 @@ import { Label } from '@/components/ui/label';
 import React, { useState } from 'react';
 import { useUsers, useUsersEditing } from '../../_stores/users-store';
 import { validateEditUser } from '../../_validators/edit-user';
+import { editUser } from '@/app/actions/users/edit-user';
+import { Loading } from '@/components/icons/loading';
 
 export default function EditUser(): JSX.Element {
   const { users } = useUsers();
@@ -18,30 +20,42 @@ export default function EditUser(): JSX.Element {
   const [lastName, setLastName] = useState(ln);
   const [email, setEmail] = useState(user?.email ?? '');
   const [password, setPassword] = useState('');
+  const [isPending, setIsPending] = useState(false);
   // errors
   const [emailError, setEmailError] = useState('');
   const [firstNameError, setFirstNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [requestError, setRequestError] = useState('');
 
   const clearErrors = () => {
     setEmailError('');
     setFirstNameError('');
     setLastNameError('');
+    setPasswordError('');
+    setRequestError('');
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // TODO: Implement user editing
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { success, error } = validateEditUser({ firstName, lastName, email });
+    const { success, error } = validateEditUser({ firstName, lastName, email, password });
     if (!success) {
       clearErrors();
       setFirstNameError(error.get('firstName') || '');
       setLastNameError(error.get('lastName') || '');
       setEmailError(error.get('email') || '');
+      setPasswordError(error.get('password') || '');
     } else {
       clearErrors();
-      dispatch({ type: 'TOGGLE_ACTION_ACTIVE', id: user?.id! });
-      console.log('User edited');
+      setIsPending(true);
+      const { success, error } = await editUser({ firstName, lastName, email, password, id: user!.id });
+      setIsPending(false);
+      if (!success) {
+        setRequestError(error);
+        return;
+      }
+
+      dispatch({ type: 'TOGGLE_ACTION_ACTIVE', id: user!.id });
     }
   };
 
@@ -110,11 +124,16 @@ export default function EditUser(): JSX.Element {
               autoComplete='off'
               className='h-9 md:h-[52px]'
             />
+            <span className='text-primary text-sm h-1'>{passwordError}</span>
           </div>
 
-          <Button variant='secondary' className='h-12  md:h-[52px] mt-[60px]'>
-            Guardar
-          </Button>
+          <div>
+            <Button variant='secondary' className='h-12  md:h-[52px] mt-[52px] w-full' disabled={isPending}>
+              <span>Guardar</span>
+              {isPending && <Loading width={24} height={24} className='ml-2 animate-spin' />}
+            </Button>
+            <span className='text-primary text-sm h-1'>{requestError}</span>
+          </div>
         </form>
       )}
     </div>

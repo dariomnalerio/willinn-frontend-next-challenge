@@ -6,6 +6,7 @@ import { cn } from '@/utils';
 import { TrashCan } from '@/components/icons/trash-can';
 import { Edit } from '@/components/icons/edit';
 import { useUsersEditing } from '../../_stores/users-store';
+import { deleteUser } from '@/app/actions/users/delete-user';
 
 export default function ActionCell({ user }: { user: User }): JSX.Element {
   const { dispatch, isActionActive, isEditing } = useUsersEditing();
@@ -16,6 +17,11 @@ export default function ActionCell({ user }: { user: User }): JSX.Element {
 
   const handleIsEditing = () => {
     dispatch({ type: 'TOGGLE_EDITING', id: user.id });
+  };
+
+  // TODO: Add delete user confirmation for better ux
+  const handleDelete = async () => {
+    await deleteUser({ id: user.id });
   };
 
   return (
@@ -40,7 +46,7 @@ export default function ActionCell({ user }: { user: User }): JSX.Element {
         )}
         {isActionActive(user.id) && (
           <div className='h-full w-full flex items-center justify-between px-3'>
-            <button aria-label='Eliminar usuario' className='p-1 rounded-full'>
+            <button aria-label='Eliminar usuario' className='p-1 rounded-full' onClick={handleDelete}>
               <TrashCan width={24} height={24} className='text-primary hover:scale-110 duration-300 ease-in-out' />
             </button>
             <button

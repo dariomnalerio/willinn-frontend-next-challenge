@@ -5,6 +5,7 @@ import { Table } from './table';
 import { SearchBar } from '@/components/search-bar';
 import { UserEditingProvider, useUsers } from '../../_stores/users-store';
 import { UserActions } from './user-actions';
+import { Skeleton } from './skeleton';
 
 export function UsersTab({ users: usersProp }: { users: User[] }): JSX.Element {
   const { setUsers } = useUsers();
@@ -24,12 +25,11 @@ export function UsersTab({ users: usersProp }: { users: User[] }): JSX.Element {
       <div className='flex flex-wrap items-center justify-center md:justify-normal gap-9'>
         <UserEditingProvider>
           <div className='w-full md:max-w-[500px] lg:max-w-[665px] md:h-[650px] md:bg-white md:rounded-3xl md:shadow mt-5 md:mt-12 py-3 overflow-y-hidden'>
-            {/* TODO: loading skeleton & isLoading to useUsers context */}
-            {isLoading && <div className='flex justify-center items-center h-full'>Cargando...</div>}
+            {isLoading && <Skeleton />}
             {!isLoading && (
               <>
                 {/* Table section */}
-                <div className=' flex justify-between items-center px-6 border-b pb-3'>
+                <div className='flex justify-between items-center px-6 border-b pb-3'>
                   <span className='text-lg font-medium'>Usuarios</span>
                   <SearchBar items={usersProp} onSearch={handleSearch} searchFields={['name']} placeholder='Buscar' />
                 </div>

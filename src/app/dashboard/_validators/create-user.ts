@@ -1,5 +1,6 @@
-import { emailRegex } from "@/utils";
-import { CreateUser, RequiredField, ValidatorReturnType } from "../_types";
+import { emailRegex, passwordRegex } from "@/utils";
+import { CreateUser } from "../_types";
+import { ValidatorReturnType, RequiredField } from "@/types";
 
 
 
@@ -11,7 +12,7 @@ export function validateCreateUser(user: CreateUser): ValidatorReturnType<Create
     { key: 'firstName', message: 'El nombre es requerido', isValid: (value) => Boolean(value) },
     { key: 'lastName', message: 'El apellido es requerido', isValid: (value) => Boolean(value) },
     { key: 'email', message: 'Ingresa un e-mail válido', isValid: (value) => emailRegex.test(value as string) },
-    { key: 'password', message: 'La contraseña es requerida', isValid: (value) => Boolean(value) },
+    { key: 'password', message: 'Ingresa una contraseña válida', isValid: (value) => passwordRegex.test(value as string) },
     { key: 'isActive', message: 'Campo requerido', isValid: (value) => typeof value === 'boolean' }
   ]
 

@@ -23,7 +23,3 @@ export type EditUser = {
   email: string;
   password: string;
 }
-
-
-export type ValidatorReturnType<K> = { success: true, error: null } | { success: false, error: Map<keyof K, string> };
-export type RequiredField<K> = { key: keyof K; message: string, isValid: <T>(value: T) => boolean }

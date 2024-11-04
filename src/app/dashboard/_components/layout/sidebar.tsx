@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Logo } from '@/components/icons/logo-bg-white';
 import { SidebarNav } from './sidebar-nav';
 import { cn } from '@/utils';
@@ -38,7 +38,9 @@ export function Sidebar(): JSX.Element {
         )}
       >
         <Logo width={150} height={34} />
-        <SidebarNav />
+        <Suspense fallback={null}>
+          <SidebarNav />
+        </Suspense>
       </aside>
     </>
   );

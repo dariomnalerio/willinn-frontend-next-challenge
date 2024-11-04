@@ -55,7 +55,7 @@ export function SearchBar<T>({ items, placeholder, onSearch, searchFields }: Sea
 
     /* 
     TODO: change this to a deep comparison, which is more efficient and reliant
-    Stringified objects sometimes have their keys and values in different orders, which can cause false negatives
+    Stringified objects sometimes have their keys and values in different order, which can cause false negatives
    */
     const areResultsDifferent = JSON.stringify(results) !== JSON.stringify(prevFilteredItems.current);
 
@@ -74,7 +74,7 @@ export function SearchBar<T>({ items, placeholder, onSearch, searchFields }: Sea
       <Input
         type='text'
         autoComplete='off'
-        className='border-background/90 ring-none bg-background rounded-full h-10 pl-10 max-w-[150px] md:max-w-[255px]'
+        className='border-gray-300 md:border-background/90 ring-none bg-background rounded-full h-10 pl-10 max-w-[150px] md:max-w-[255px]'
         placeholder={placeholder}
         value={searchTerm}
         onChange={handleSearchTermChange}

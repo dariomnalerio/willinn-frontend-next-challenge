@@ -2,19 +2,21 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useState, useRef } from 'react';
-import { useUsers } from '../../_stores/users-store';
 import { validateCreateUser } from '../../_validators/create-user';
 import { Input } from '@/components/ui/input';
+import { createUser } from '@/app/actions/users/create-user';
+import { Loading } from '@/components/icons/loading';
 
 export default function AddUser() {
   const [isActive, setIsActive] = useState(true);
+  const [isPending, setIsPending] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [firstNameError, setFirstNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
   const [isActiveError, setIsActiveError] = useState('');
+  const [requestError, setRequestError] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
-  const { setUsers } = useUsers();
 
   const handleIsActive = (state: boolean) => {
     setIsActive(state);
@@ -26,9 +28,10 @@ export default function AddUser() {
     setFirstNameError('');
     setLastNameError('');
     setIsActiveError('');
+    setRequestError('');
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formRef.current) {
       const email = (formRef.current.elements.namedItem('email') as HTMLInputElement).value;
@@ -46,19 +49,14 @@ export default function AddUser() {
         setIsActiveError(error.get('isActive') || '');
       } else {
         clearErrors();
-        setUsers((prev) => [
-          ...prev,
-          {
-            id: prev.length + 1,
-            email,
-            name: `${firstName} ${lastName}`,
-            isActive,
-            password,
-          },
-        ]);
-
+        setIsPending(true);
+        const { error, success } = await createUser({ email, firstName, lastName, password, isActive });
+        setIsPending(false);
+        if (!success) {
+          setRequestError(error);
+          return;
+        }
         formRef.current.reset();
-        console.log('User added');
       }
     }
   };
@@ -126,9 +124,13 @@ export default function AddUser() {
           <span className='text-primary text-sm h-1'>{isActiveError}</span>
         </div>
 
-        <Button variant='secondary' className='h-12 md:h-[52px]'>
-          Guardar
-        </Button>
+        <div>
+          <Button variant='secondary' className='h-12 md:h-[52px] w-full' disabled={isPending}>
+            <span>Guardar</span>
+            {isPending && <Loading width={24} height={24} className='ml-2 animate-spin' />}
+          </Button>
+          <span className='text-primary text-sm h-1'>{requestError}</span>
+        </div>
       </form>
     </div>
   );
