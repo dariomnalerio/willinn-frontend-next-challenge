@@ -1,7 +1,7 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("token");
+  const token = request.cookies.get('token');
 
   if (!token) {
     return NextResponse.redirect(new URL('/login', request.url));
@@ -12,4 +12,4 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: ['/dashboard/:path*'],
-}
+};
