@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Willin Front-End Next Challenge
+
+## Overview
+
+This project features a web application made with Next.js that allows users to log-in, view a list of users, add, edit and delete users by consuming a REST API.
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+
+    ```bash
+    git clone https://github.com/dariomnalerio/willinn-frontend-next-challenge.git
+    cd willinn-frontend-next-challenge
+    ```
+2. Install dependencies
+
+    ```bash
+    npm install
+    ```
+3. Run the development server
+
+    ```bash
+    npm run dev
+    ```
+
+### Building the project
+To build the project for production with docker:
+  
+  ```bash
+    docker compose up --build
+  ```
+
+## Configuration
+
+The project uses `.env` and `.env.local` files to store environment variables. Create them in the root of the project and add the following variables:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+NEXT_PUBLIC_API_URL="URL_TO_API"
+NODE_ENV="production" or "development"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Architecture
+The project uses a feature-based approach. Each feature contains its own components, pages, hooks, and services. Global parts of the project are stored in its respective folder in the `src` directory.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Components**: Reusable components. In the `src/components` directory it also contains reusable primitives such as `Button`, `Input`, and so on, as well as icons that are used throughout the app.
+2. **Hooks**: Custom hooks, such as `useQueryString`
+3. **Types**: Typescript types and interfaces
+4. **Utils**: Utility functions
+5. **Stores**: Global state management using useContext, useState and useReducer
+6. **Validators**: Validation functions for forms
+7. **Actions**: Next.js server actions to log-in and fetch or mutate data
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Middleware
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The project includes middleware that checks for the existence of a token cookie. If the token cookie is not present, the middleware will redirect the user to the login view, ensuring that protected routes are only accessible to authenticated users.
